@@ -15,7 +15,7 @@ y14 = open("y14.txt")
 y15 = open("y15.txt")
 
 cursor.execute("DROP TABLE IF EXISTS students")
-cursor.execute("DROP TABLE IF EXISTS dues")
+#cursor.execute("DROP TABLE IF EXISTS dues")
 
 createtable = """CREATE TABLE students (
 				name CHAR(50),
