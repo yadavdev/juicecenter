@@ -1,6 +1,7 @@
-*.~
+*~
 *.save
 y13.txt
 y14.txt
 y15.txt
 *.jpg
+*.log

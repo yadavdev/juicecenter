@@ -1,13 +1,23 @@
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 # Form implementation generated from reading ui file 'studentpage.ui'
 #
 # Created: Tue Jul 28 15:14:11 2015
 #      by: PyQt4 UI code generator 4.11.3
-#
-# WARNING! All changes made in this file will be lost!
+# Authors: Gaurav, Devashish Yadav Y13 Hall-2
 
 from PyQt4 import QtCore, QtGui
+import MySQLdb
+import time
+logs = open('juicecenter.log','a')
+data = []
+try:
+	db = MySQLdb.connect("localhost","root","tiger","juicecenter")
+	cursor = db.cursor()
+except MySQLdb.Error as e:
+	logs.write(time.asctime( time.localtime(time.time()) ) + " : "+str(e)+"\n")
+
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -81,14 +91,23 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(_translate("MainWindow", "JuiceCentre", None))
+        MainWindow.setWindowTitle(_translate("MainWindow", "JuiceCentre 1.0", None))
         self.pushButton.setText(_translate("MainWindow", "ENTER", None))
         self.label.setText(_translate("MainWindow", "Enter Roll No:", None))
         self.menuJuiceCentre.setTitle(_translate("MainWindow", "JuiceCentre", None))
 
     def rollnumber(self):
-        rollno = str(self.lineEdit.text())
-        ui2.setupUi(MainWindow)
+		rollno = str(self.lineEdit.text())
+		global data
+		print rollno
+		sqlq = "SELECT * from students where rollno="+str(rollno)
+		cursor.execute(sqlq)
+		data = cursor.fetchall()
+		if len(data)==0:
+			print "Invalid Roll No."
+			self.label_2.setText("Invalid Roll No.")
+		else:
+			ui2.setupUi(MainWindow)
 
 class Ui_StudentPage(object):
     def setupUi(self, StudentPage):
@@ -105,7 +124,7 @@ class Ui_StudentPage(object):
         self.lineEdit = QtGui.QLineEdit(self.centralwidget)
         self.lineEdit.setGeometry(QtCore.QRect(171, 221, 316, 50))
         self.lineEdit.setStyleSheet(_fromUtf8("font: 26pt \"Ubuntu\";"))
-        self.lineEdit.setText(_fromUtf8(""))
+        self.lineEdit.setText(_fromUtf8("0"))
         self.lineEdit.setObjectName(_fromUtf8("lineEdit"))
         self.pushButton = QtGui.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(510, 280, 101, 51))
@@ -166,13 +185,13 @@ class Ui_StudentPage(object):
         self.retranslateUi(StudentPage)
         QtCore.QObject.connect(self.pushButton, QtCore.SIGNAL(_fromUtf8("clicked()")), self.store)
         QtCore.QObject.connect(self.lineEdit, QtCore.SIGNAL(_fromUtf8("returnPressed()")), self.pushButton.click)
-        QtCore.QObject.connect(self.pushButton, QtCore.SIGNAL(_fromUtf8("clicked()")), self.store)
         QtCore.QObject.connect(self.lineEdit_2, QtCore.SIGNAL(_fromUtf8("returnPressed()")), self.pushButton.click)
         QtCore.QMetaObject.connectSlotsByName(StudentPage)
         StudentPage.setTabOrder(self.lineEdit, self.lineEdit_2)
         
     def retranslateUi(self, StudentPage):
-        StudentPage.setWindowTitle(_translate("StudentPage", "MainWindow", None))
+    	global data
+        StudentPage.setWindowTitle(_translate("StudentPage", "JuiceCentre 1.0", None))
         self.pushButton.setText(_translate("StudentPage", "ENTER", None))
         self.label.setText(_translate("StudentPage", "Enter Amount:", None))
         self.pushButton_2.setText(_translate("StudentPage", "CANCEL", None))
@@ -180,12 +199,43 @@ class Ui_StudentPage(object):
         self.label_3.setText(_translate("StudentPage", "Juice", None))
         self.toolBar.setWindowTitle(_translate("StudentPage", "toolBar", None))
         self.toolBar_2.setWindowTitle(_translate("StudentPage", "toolBar_2", None))
-    
+    	self.name.setText(_translate("StudentPage", str(data[0][1]), None))
+    	self.rollno.setText(_translate("StudentPage", str(data[0][2]), None))
+
     def store(self):
         icecream = str(self.lineEdit.text())
         juice    = str(self.lineEdit_2.text())
-        ui.setupUi(MainWindow)
-        
+    	try:
+    		icecream = int(icecream)
+    		juice = int(juice)
+    		print "done icecream= %s juice=%s" %(icecream,juice)
+    		if(icecream>0 or juice>0):
+	    		try:
+	    			cursor.execute ("""
+	   							UPDATE students
+	   							SET icecream = icecream + %s,juice = juice + %s,total = icecream+juice
+	   							WHERE rollno=%s
+								""", (icecream,juice, data[0][2]))
+	    			if icecream>0 and juice==0:
+	    				item ="icecream"
+	    			elif juice>0 and icecream==0:
+	    				item ="juice"
+	    			elif icecream>0 and juice>0:
+	    				item = "ice+juice"
+
+	    			cursor.execute ("""
+	   							INSERT into s"""+str(data[0][2])+"""
+								(item,amount) values ("%s","%s")
+								""", (item,juice+icecream))
+	    			db.commit()
+	    			ui.setupUi(MainWindow)
+	    		except MySQLdb.Error as e:
+	    			db.rollback()
+	    			print "Database Error. Press cancel and try again. \n error: %s"%e
+	    	else:
+	    		print "Please Enter input or press cancel"
+    	except Exception, e:
+    		print "Please enter valid number. %s"%e
 
 if __name__ == "__main__":
     import sys

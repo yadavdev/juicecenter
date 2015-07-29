@@ -3,10 +3,14 @@
 import MySQLdb
 
 # Opening databse connection
-db = MySQLdb.connect("localhost","root","","test")
-
 # Preparing cursor object 
-cursor = db.cursor()
+try:
+	db = MySQLdb.connect("localhost","root","tiger","juicecenter")
+	cursor = db.cursor()
+except MySQLdb.Error, e:
+	print "Database Connection Error"
+	raise e
+
 
 # Adding students to database
 
@@ -15,31 +19,33 @@ y14 = open("y14.txt")
 y15 = open("y15.txt")
 
 cursor.execute("DROP TABLE IF EXISTS students")
-#cursor.execute("DROP TABLE IF EXISTS dues")
 
 createtable = """CREATE TABLE students (
+				s_no INT(6),
 				name CHAR(50),
 				rollno INT(6),
-				img CHAR(15) )"""
+				juice INT(6) default 0,
+				icecream INT(6) default 0,
+				total INT(6) default 0)"""
 
 cursor.execute(createtable)
 
-createtable = """CREATE TABLE dues (
-				name CHAR(50),
-				rollno INT(6),
-				img CHAR(15),
-				due INT(10) default 0)"""
-
-cursor.execute(createtable)
 
 for i in range(190):
 	data = y13.readline()
 	data = data.split()
 	rollno = int(data[0])
 	name = ' '.join(data[1:])
-	img = data[0] + "_0.jpg"
-	cursor.execute('insert into students (name,rollno,img) values ("%s", "%d", "%s")' % (name, rollno, img))
-	cursor.execute('insert into dues (name,rollno,img) values ("%s", "%d", "%s")' % (name, rollno, img))
+	createtable = "CREATE TABLE "+'s'+str(rollno) + """(
+													s_no INT(6) not null auto_increment primary key,
+													date_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+													item CHAR(30),
+													amount INT(6))"""
+
+	cursor.execute(createtable)
+
+	cursor.execute('insert into students (s_no ,name,rollno) values ("%d","%s", "%d")' % (i+1,name, rollno))
+	#cursor.execute('insert into '+'s'+str(rollno) +(' (s_no ,name,rollno) values ("%d","%s", "%d")' % (i+1,name, rollno)))
 	db.commit()
 
 for i in range(200):
@@ -47,9 +53,16 @@ for i in range(200):
 	data = data.split()
 	rollno = int(data[0])
 	name = ' '.join(data[1:])
-	img = data[0] + "_0.jpg"
-	cursor.execute('insert into students (name,rollno,img) values ("%s", "%d", "%s")' % (name, rollno, img))
-	cursor.execute('insert into dues (name,rollno,img) values ("%s", "%d", "%s")' % (name, rollno, img))
+	createtable = "CREATE TABLE "+'s'+str(rollno) +"""(
+				s_no INT(6) not null auto_increment primary key,
+				date_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+				item CHAR(30),
+				amount INT(6))"""
+
+	cursor.execute(createtable)
+
+	cursor.execute('insert into students (s_no ,name,rollno) values ("%d","%s", "%d")' % (i+1+190,name, rollno))
+	#cursor.execute('insert into '+'s'+str(rollno) +(' (s_no ,name,rollno) values ("%d","%s", "%d")' % (0,name, rollno)))
 	db.commit()
 
 for i in range(207):
@@ -57,9 +70,16 @@ for i in range(207):
 	data = data.split()
 	rollno = int(data[0])
 	name = ' '.join(data[1:])
-	img = data[0] + "_0.jpg"
-	cursor.execute('insert into students (name,rollno,img) values ("%s", "%d", "%s")' % (name, rollno, img))
-	cursor.execute('insert into dues (name,rollno,img) values ("%s", "%d", "%s")' % (name, rollno, img))
+	createtable = "CREATE TABLE "+'s'+str(rollno) +"""(
+				s_no INT(6) not null auto_increment primary key,
+				date_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+				item CHAR(30),
+				amount INT(6))"""
+
+	cursor.execute(createtable)
+
+	cursor.execute('insert into students (s_no ,name,rollno) values ("%d","%s", "%d")' % (i+1+290,name, rollno))
+	#cursor.execute('insert into '+'s'+str(rollno)+(' (s_no ,name,rollno) values ("%d","%s", "%d")' % (0,name, rollno)))
 	db.commit()
 
 db.close()
