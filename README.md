@@ -1,7 +1,9 @@
 JuiceCenter 1.0beta
 ===============
-> By Devashish Kumar Yadav &
->   Gaurav ,IIT Kanpur
+> Gaurav
+
+> Devashish Kumar Yadav 
+
 
 A python Gui app for carrying out student's juice+icecream transactions.
 
