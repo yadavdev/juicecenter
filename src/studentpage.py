@@ -33,6 +33,187 @@ except AttributeError:
     def _translate(context, text, disambig):
         return QtGui.QApplication.translate(context, text, disambig)
 
+#########################################
+
+class Ui_Admin_corner(object):
+    def setupUi(self, Admin_corner):
+        Admin_corner.setObjectName(_fromUtf8("Admin_corner"))
+        Admin_corner.resize(800, 600)
+        self.centralwidget = QtGui.QWidget(Admin_corner)
+        self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
+        self.label = QtGui.QLabel(self.centralwidget)
+        self.label.setGeometry(QtCore.QRect(160, 110, 41, 21))
+        self.label.setObjectName(_fromUtf8("label"))
+        self.label_2 = QtGui.QLabel(self.centralwidget)
+        self.label_2.setGeometry(QtCore.QRect(380, 110, 67, 17))
+        self.label_2.setObjectName(_fromUtf8("label_2"))
+        self.pushButton = QtGui.QPushButton(self.centralwidget)
+        self.pushButton.setGeometry(QtCore.QRect(250, 240, 121, 27))
+        self.pushButton.setObjectName(_fromUtf8("pushButton"))
+        self.pushButton_2 = QtGui.QPushButton(self.centralwidget)
+        self.pushButton_2.setGeometry(QtCore.QRect(550, 20, 99, 27))
+        self.pushButton_2.setObjectName(_fromUtf8("pushButton_2"))
+        self.label_3 = QtGui.QLabel(self.centralwidget)
+        self.label_3.setGeometry(QtCore.QRect(210, 310, 251, 31))
+        self.label_3.setObjectName(_fromUtf8("label_3"))
+        self.lineEdit = QtGui.QLineEdit(self.centralwidget)
+        self.lineEdit.setGeometry(QtCore.QRect(130, 170, 113, 27))
+        self.lineEdit.setObjectName(_fromUtf8("lineEdit"))
+        self.lineEdit_2 = QtGui.QLineEdit(self.centralwidget)
+        self.lineEdit_2.setGeometry(QtCore.QRect(360, 170, 113, 27))
+        self.lineEdit_2.setText(_fromUtf8(""))
+        self.lineEdit_2.setObjectName(_fromUtf8("lineEdit_2"))
+        self.label_4 = QtGui.QLabel(self.centralwidget)
+        self.label_4.setGeometry(QtCore.QRect(140, 140, 91, 20))
+        self.label_4.setObjectName(_fromUtf8("label_4"))
+        self.label_5 = QtGui.QLabel(self.centralwidget)
+        self.label_5.setGeometry(QtCore.QRect(370, 140, 91, 20))
+        self.label_5.setObjectName(_fromUtf8("label_5"))
+        self.label_6 = QtGui.QLabel(self.centralwidget)
+        self.label_6.setGeometry(QtCore.QRect(250, 40, 131, 31))
+        self.label_6.setObjectName(_fromUtf8("label_6"))
+        Admin_corner.setCentralWidget(self.centralwidget)
+        self.menubar = QtGui.QMenuBar(Admin_corner)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 25))
+        self.menubar.setObjectName(_fromUtf8("menubar"))
+        Admin_corner.setMenuBar(self.menubar)
+        self.statusbar = QtGui.QStatusBar(Admin_corner)
+        self.statusbar.setObjectName(_fromUtf8("statusbar"))
+        Admin_corner.setStatusBar(self.statusbar)
+
+        self.retranslateUi(Admin_corner)
+        QtCore.QObject.connect(self.pushButton, QtCore.SIGNAL(_fromUtf8("clicked()")), self.trigger)
+        QtCore.QObject.connect(self.pushButton_2, QtCore.SIGNAL(_fromUtf8("clicked()")), self.prev)
+        QtCore.QMetaObject.connectSlotsByName(Admin_corner)
+
+    def trigger(self):
+        # code to generate excel sheet
+        start = str(lineEdit)
+        end   = str(lineEdit_2) 
+        
+    def prev(self):
+        ui4.setupUi(MainWindow)    
+        
+
+    def retranslateUi(self, Admin_corner):
+        Admin_corner.setWindowTitle(_translate("Admin_corner", "MainWindow", None))
+        self.label.setText(_translate("Admin_corner", "From", None))
+        self.label_2.setText(_translate("Admin_corner", "To", None))
+        self.pushButton.setText(_translate("Admin_corner", " Generate Excel", None))
+        self.pushButton_2.setText(_translate("Admin_corner", "Back", None))
+        self.label_3.setText(_translate("Admin_corner", "Error", None))
+        self.label_4.setText(_translate("Admin_corner", "dd/mm/yyyy", None))
+        self.label_5.setText(_translate("Admin_corner", "dd/mm/yyyy", None))
+        self.label_6.setText(_translate("Admin_corner", "Create Excel", None))
+
+
+###################################
+
+class Ui_Chooser_window(object):
+    def setupUi(self, Chooser_window):
+        Chooser_window.setObjectName(_fromUtf8("Chooser_window"))
+        Chooser_window.resize(800, 600)
+        self.centralwidget = QtGui.QWidget(Chooser_window)
+        self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
+        self.pushButton = QtGui.QPushButton(self.centralwidget)
+        self.pushButton.setGeometry(QtCore.QRect(238, 130, 131, 31))
+        font = QtGui.QFont()
+        font.setPointSize(14)
+        font.setBold(False)
+        font.setWeight(50)
+        self.pushButton.setFont(font)
+        self.pushButton.setObjectName(_fromUtf8("pushButton"))
+        self.pushButton_2 = QtGui.QPushButton(self.centralwidget)
+        self.pushButton_2.setGeometry(QtCore.QRect(238, 200, 131, 31))
+        font = QtGui.QFont()
+        font.setPointSize(14)
+        font.setBold(False)
+        font.setWeight(50)
+        self.pushButton_2.setFont(font)
+        self.pushButton_2.setObjectName(_fromUtf8("pushButton_2"))
+        Chooser_window.setCentralWidget(self.centralwidget)
+        self.menubar = QtGui.QMenuBar(Chooser_window)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 25))
+        self.menubar.setObjectName(_fromUtf8("menubar"))
+        Chooser_window.setMenuBar(self.menubar)
+        self.statusbar = QtGui.QStatusBar(Chooser_window)
+        self.statusbar.setObjectName(_fromUtf8("statusbar"))
+        Chooser_window.setStatusBar(self.statusbar)
+
+        self.retranslateUi(Chooser_window)
+        QtCore.QObject.connect(self.pushButton, QtCore.SIGNAL(_fromUtf8("clicked()")), self.juice)
+        QtCore.QObject.connect(self.pushButton_2, QtCore.SIGNAL(_fromUtf8("clicked()")), self.admin)
+        QtCore.QMetaObject.connectSlotsByName(Chooser_window)
+
+    def juice(self):
+        ui1.setupUi(MainWindow)
+
+    def admin(self):
+        ui5.setupUi(MainWindow)    
+        
+    def retranslateUi(self, Chooser_window):
+        Chooser_window.setWindowTitle(_translate("Chooser_window", "MainWindow", None))
+        self.pushButton.setText(_translate("Chooser_window", "Juice Entry", None))
+        self.pushButton_2.setText(_translate("Chooser_window", "Admin Corner", None))
+
+####################################
+
+class Ui_login_page(object):
+    def setupUi(self, login_page):
+        login_page.setObjectName(_fromUtf8("login_page"))
+        login_page.resize(800, 600)
+        self.centralwidget = QtGui.QWidget(login_page)
+        self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
+        self.pushButton_2 = QtGui.QPushButton(self.centralwidget)
+        self.pushButton_2.setGeometry(QtCore.QRect(370, 220, 99, 27))
+        self.pushButton_2.setObjectName(_fromUtf8("pushButton_2"))
+        self.label = QtGui.QLabel(self.centralwidget)
+        self.label.setGeometry(QtCore.QRect(120, 120, 71, 31))
+        self.label.setObjectName(_fromUtf8("label"))
+        self.label_2 = QtGui.QLabel(self.centralwidget)
+        self.label_2.setGeometry(QtCore.QRect(120, 160, 81, 31))
+        self.label_2.setObjectName(_fromUtf8("label_2"))
+        self.label_3 = QtGui.QLabel(self.centralwidget)
+        self.label_3.setGeometry(QtCore.QRect(120, 290, 411, 31))
+        self.label_3.setObjectName(_fromUtf8("label_3"))
+        self.lineEdit = QtGui.QLineEdit(self.centralwidget)
+        self.lineEdit.setGeometry(QtCore.QRect(270, 120, 201, 27))
+        self.lineEdit.setObjectName(_fromUtf8("lineEdit"))
+        self.lineEdit_2 = QtGui.QLineEdit(self.centralwidget)
+        self.lineEdit_2.setGeometry(QtCore.QRect(270, 160, 201, 27))
+        self.lineEdit_2.setObjectName(_fromUtf8("lineEdit_2"))
+        self.lineEdit_2.setEchoMode(QtGui.QLineEdit.Password)
+        login_page.setCentralWidget(self.centralwidget)
+        self.menubar = QtGui.QMenuBar(login_page)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 25))
+        self.menubar.setObjectName(_fromUtf8("menubar"))
+        login_page.setMenuBar(self.menubar)
+        self.statusbar = QtGui.QStatusBar(login_page)
+        self.statusbar.setObjectName(_fromUtf8("statusbar"))
+        login_page.setStatusBar(self.statusbar)
+
+        self.retranslateUi(login_page)
+        QtCore.QObject.connect(self.pushButton_2, QtCore.SIGNAL(_fromUtf8("clicked()")), self.login_action)
+        QtCore.QMetaObject.connectSlotsByName(login_page)
+        login_page.setTabOrder(self.lineEdit, self.lineEdit_2)
+        login_page.setTabOrder(self.lineEdit_2, self.pushButton_2)
+
+    def login_action(self):
+        login = str(self.lineEdit.text())
+        pswrd = str(self.lineEdit_2.text())
+        if login == "1" and pswrd == "": 
+            ui4.setupUi(MainWindow)
+        else :
+            self.label_3.setText(_translate("login_page", "Wrong login credintials", None))
+
+    def retranslateUi(self, login_page):
+        login_page.setWindowTitle(_translate("login_page", "MainWindow", None))
+        self.pushButton_2.setText(_translate("login_page", "Go", None))
+        self.label.setText(_translate("login_page", "Login:", None))
+        self.label_2.setText(_translate("login_page", "Password:", None))
+        self.label_3.setText(_translate("login_page", "", None))        
+
+########################################
 class Ui_MainWindow(object):
 
     def setupUi(self, MainWindow):
@@ -108,6 +289,8 @@ class Ui_MainWindow(object):
 			self.label_2.setText("Invalid Roll No.")
 		else:
 			ui2.setupUi(MainWindow)
+
+##########################################
 
 class Ui_StudentPage(object):
     def setupUi(self, StudentPage):
@@ -241,9 +424,13 @@ if __name__ == "__main__":
     import sys
     app = QtGui.QApplication(sys.argv)
     MainWindow = QtGui.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
+    ui1 = Ui_MainWindow()
     ui2 = Ui_StudentPage()
+    ui3 = Ui_login_page()
+    ui4 = Ui_Chooser_window()
+    ui5 = Ui_Admin_corner()
+
+    ui3.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
 
