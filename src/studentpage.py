@@ -232,8 +232,12 @@ class Ui_login_page(object):
         self.label_2.setGeometry(QtCore.QRect(120, 160, 81, 31))
         self.label_2.setObjectName(_fromUtf8("label_2"))
         self.label_3 = QtGui.QLabel(self.centralwidget)
-        self.label_3.setGeometry(QtCore.QRect(120, 290, 411, 31))
+        self.label_3.setGeometry(QtCore.QRect(50, 290, 700, 31))
         self.label_3.setObjectName(_fromUtf8("label_3"))
+	font = QtGui.QFont()
+        font.setPointSize(14)
+        self.label_3.setStyleSheet(_fromUtf8("color:red;"))
+        self.label_3.setFont(font)
         self.lineEdit = QtGui.QLineEdit(self.centralwidget)
         self.lineEdit.setGeometry(QtCore.QRect(270, 120, 201, 27))
         self.lineEdit.setObjectName(_fromUtf8("lineEdit"))
@@ -252,6 +256,8 @@ class Ui_login_page(object):
 
         self.retranslateUi(login_page)
         QtCore.QObject.connect(self.pushButton_2, QtCore.SIGNAL(_fromUtf8("clicked()")), self.login_action)
+	QtCore.QObject.connect(self.lineEdit, QtCore.SIGNAL(_fromUtf8("returnPressed()")), self.pushButton_2.click)
+	QtCore.QObject.connect(self.lineEdit_2, QtCore.SIGNAL(_fromUtf8("returnPressed()")), self.pushButton_2.click)
         QtCore.QMetaObject.connectSlotsByName(login_page)
         login_page.setTabOrder(self.lineEdit, self.lineEdit_2)
         login_page.setTabOrder(self.lineEdit_2, self.pushButton_2)
@@ -259,10 +265,17 @@ class Ui_login_page(object):
     def login_action(self):
         login = str(self.lineEdit.text())
         pswrd = str(self.lineEdit_2.text())
-        if login == "1" and pswrd == "": 
-            ui4.setupUi(MainWindow)
-        else :
-            self.label_3.setText(_translate("login_page", "Wrong login credintials", None))
+	try:
+		cursor.execute("SELECT * FROM login")
+		user_data = cursor.fetchone()
+		if login == str(user_data[0]) and pswrd == str(user_data[1]): 
+		    ui4.setupUi(MainWindow)
+		else :
+		    self.label_3.setText(_translate("login_page", "Wrong login credintials", None))
+	except MySQLdb.Error as e:
+		self.label_3.setText(_translate("login_page", "Database Error", None))
+	except Exception,e:
+		self.label_3.setText(_translate("login_page", "Exception:"+str(e), None))
 
     def retranslateUi(self, login_page):
         MainWindow.setWindowTitle(_translate("MainWindow", "JuiceCentre 1.0", None))
@@ -340,6 +353,8 @@ class Ui_MainWindow(object):
 		rollno = str(self.lineEdit.text())
 		global data
 		print rollno
+		if rollno =="":
+			rollno="0"			
 		sqlq = "SELECT * from students where rollno="+str(rollno)
 		cursor.execute(sqlq)
 		data = cursor.fetchall()
