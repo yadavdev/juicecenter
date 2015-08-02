@@ -15,6 +15,7 @@ logs = open('juicecenter.log','a')
 data = []
 wb = Workbook()
 global lastamount
+lastamount =0
 try:
 	db = MySQLdb.connect("localhost","root","tiger","juicecenter")
 	cursor = db.cursor()
@@ -486,6 +487,8 @@ class Ui_StudentPage(object):
     	self.rollno.setText(_translate("StudentPage", str(data[0][2]), None))
 
     def cancel(self):
+	global lastamount
+	lastamount = 0
     	ui1.setupUi(MainWindow)
 
     def store(self):
