@@ -14,6 +14,7 @@ from openpyxl import Workbook
 logs = open('juicecenter.log','a')
 data = []
 wb = Workbook()
+global lastamount
 try:
 	db = MySQLdb.connect("localhost","root","tiger","juicecenter")
 	cursor = db.cursor()
@@ -323,6 +324,14 @@ class Ui_MainWindow(object):
         self.label_2.setText(_fromUtf8(""))
         self.label_2.setStyleSheet(_fromUtf8("color:red;"))
         self.label_2.setObjectName(_fromUtf8("label_2"))
+	self.label_last = QtGui.QLabel(self.centralWidget)
+        self.label_last.setGeometry(QtCore.QRect(30, 330, 700, 31))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.label_last.setFont(font)
+        self.label_last.setText(_fromUtf8(""))
+        self.label_last.setStyleSheet(_fromUtf8("color:black;"))
+        self.label_last.setObjectName(_fromUtf8("label_2"))
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtGui.QMenuBar(MainWindow)
         self.menuBar.setGeometry(QtCore.QRect(0, 0, 800, 25))
@@ -344,15 +353,18 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
+	global lastamount
         MainWindow.setWindowTitle(_translate("MainWindow", "JuiceCentre 1.0", None))
         self.pushButton.setText(_translate("MainWindow", "ENTER", None))
         self.label.setText(_translate("MainWindow", "Enter Roll No:", None))
         self.menuJuiceCentre.setTitle(_translate("MainWindow", "JuiceCentre", None))
-
+	if len(data)!=0:
+		self.label_last.setText(_translate("MainWindow", "Last Transaction:      "+str(data[0][2])+" "+str(data[0][1])+"             Amount: Rs "+ str(lastamount), None))
+	
     def rollnumber(self):
 		rollno = str(self.lineEdit.text())
 		global data
-		print rollno
+		#print rollno
 		if rollno =="":
 			rollno="0"			
 		sqlq = "SELECT * from students where rollno="+str(rollno)
@@ -494,6 +506,8 @@ class Ui_StudentPage(object):
 								(icecream,juice,amount) values ("%s","%s","%s")
 								""", (icecream,juice,juice+icecream))
 	    			db.commit()
+				global lastamount
+				lastamount = icecream+juice
 	    			ui1.setupUi(MainWindow)
 	    		except MySQLdb.Error as e:
 	    			db.rollback()
