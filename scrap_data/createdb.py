@@ -23,10 +23,8 @@ cursor.execute("DROP TABLE IF EXISTS students")
 createtable = """CREATE TABLE students (
 				s_no INT(6),
 				name CHAR(50),
-				rollno INT(6),
-				juice INT(6) default 0,
-				icecream INT(6) default 0,
-				total INT(6) default 0)"""
+				rollno INT(6))
+				"""
 
 cursor.execute(createtable)
 
@@ -36,11 +34,13 @@ for i in range(190):
 	data = data.split()
 	rollno = int(data[0])
 	name = ' '.join(data[1:])
+	cursor.execute("DROP TABLE IF EXISTS "+'s'+str(rollno))
 	createtable = "CREATE TABLE "+'s'+str(rollno) + """(
-													s_no INT(6) not null auto_increment primary key,
-													date_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-													item CHAR(30),
-													amount INT(6))"""
+				s_no INT(6) not null auto_increment primary key,
+				date_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+				juice INT(10) default 0,
+				icecream INT(10) default 0,
+				amount INT(6))"""
 
 	cursor.execute(createtable)
 
@@ -53,10 +53,12 @@ for i in range(200):
 	data = data.split()
 	rollno = int(data[0])
 	name = ' '.join(data[1:])
+	cursor.execute("DROP TABLE IF EXISTS "+'s'+str(rollno))
 	createtable = "CREATE TABLE "+'s'+str(rollno) +"""(
 				s_no INT(6) not null auto_increment primary key,
 				date_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-				item CHAR(30),
+				juice INT(10) default 0,
+				icecream INT(10) default 0,
 				amount INT(6))"""
 
 	cursor.execute(createtable)
@@ -70,10 +72,12 @@ for i in range(207):
 	data = data.split()
 	rollno = int(data[0])
 	name = ' '.join(data[1:])
+	cursor.execute("DROP TABLE IF EXISTS "+'s'+str(rollno))
 	createtable = "CREATE TABLE "+'s'+str(rollno) +"""(
 				s_no INT(6) not null auto_increment primary key,
 				date_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-				item CHAR(30),
+				juice INT(10) default 0,
+				icecream INT(10) default 0,
 				amount INT(6))"""
 
 	cursor.execute(createtable)
