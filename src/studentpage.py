@@ -88,8 +88,8 @@ class Ui_Admin_corner(object):
 
     def trigger(self):
         # code to generate excel sheet
-        start = str(lineEdit)
-        end   = str(lineEdit_2) 
+        start = str(self.lineEdit.text)
+        end   = str(self.lineEdit_2.text) 
         
     def prev(self):
         ui4.setupUi(MainWindow)    
@@ -367,6 +367,7 @@ class Ui_StudentPage(object):
 
         self.retranslateUi(StudentPage)
         QtCore.QObject.connect(self.pushButton, QtCore.SIGNAL(_fromUtf8("clicked()")), self.store)
+        QtCore.QObject.connect(self.pushButton_2, QtCore.SIGNAL(_fromUtf8("clicked()")), self.cancel)
         QtCore.QObject.connect(self.lineEdit, QtCore.SIGNAL(_fromUtf8("returnPressed()")), self.pushButton.click)
         QtCore.QObject.connect(self.lineEdit_2, QtCore.SIGNAL(_fromUtf8("returnPressed()")), self.pushButton.click)
         QtCore.QMetaObject.connectSlotsByName(StudentPage)
@@ -384,6 +385,9 @@ class Ui_StudentPage(object):
         self.toolBar_2.setWindowTitle(_translate("StudentPage", "toolBar_2", None))
     	self.name.setText(_translate("StudentPage", str(data[0][1]), None))
     	self.rollno.setText(_translate("StudentPage", str(data[0][2]), None))
+
+    def cancel(self):
+    	ui1.setupUi(MainWindow)
 
     def store(self):
         icecream = str(self.lineEdit.text())
