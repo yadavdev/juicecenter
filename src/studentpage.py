@@ -9,7 +9,7 @@
 
 from PyQt4 import QtCore, QtGui
 import MySQLdb
-import time
+import datetime
 logs = open('juicecenter.log','a')
 data = []
 try:
@@ -56,6 +56,10 @@ class Ui_Admin_corner(object):
         self.label_3 = QtGui.QLabel(self.centralwidget)
         self.label_3.setGeometry(QtCore.QRect(210, 310, 251, 31))
         self.label_3.setObjectName(_fromUtf8("label_3"))
+        font = QtGui.QFont()
+        font.setPointSize(16)
+        self.label_3.setStyleSheet(_fromUtf8("color:red;"))
+        self.label_3.setFont(font)
         self.lineEdit = QtGui.QLineEdit(self.centralwidget)
         self.lineEdit.setGeometry(QtCore.QRect(130, 170, 113, 27))
         self.lineEdit.setObjectName(_fromUtf8("lineEdit"))
@@ -88,9 +92,30 @@ class Ui_Admin_corner(object):
 
     def trigger(self):
         # code to generate excel sheet
-        start = str(self.lineEdit.text)
-        end   = str(self.lineEdit_2.text) 
-        
+        start = str(self.lineEdit.text())
+        end   = str(self.lineEdit_2.text())
+        try:
+        	# start = start.split("/")
+        	# end = end.split("/")
+        	# start = int(start)
+        	# end = int(end)
+        	print start
+    		print end
+        	if datetime.datetime.strptime(start, '%d/%m/%Y') <= datetime.datetime.strptime(end, '%d/%m/%Y'):
+        		try:
+
+        		except:
+        			
+        	else:
+        		print "Start Date should be less than or equal to end date"
+        		self.label_3.setText("Start Date should be less than or equal to end date")
+
+        except:
+        	print "Enter in the given format only."
+    		self.label_3.setText("Enter in the given format only.")
+
+
+
     def prev(self):
         ui4.setupUi(MainWindow)    
         
@@ -101,7 +126,7 @@ class Ui_Admin_corner(object):
         self.label_2.setText(_translate("Admin_corner", "To", None))
         self.pushButton.setText(_translate("Admin_corner", " Generate Excel", None))
         self.pushButton_2.setText(_translate("Admin_corner", "Back", None))
-        self.label_3.setText(_translate("Admin_corner", "Error", None))
+        self.label_3.setText(_translate("Admin_corner", "", None))
         self.label_4.setText(_translate("Admin_corner", "dd/mm/yyyy", None))
         self.label_5.setText(_translate("Admin_corner", "dd/mm/yyyy", None))
         self.label_6.setText(_translate("Admin_corner", "Create Excel", None))
