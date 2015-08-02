@@ -96,7 +96,7 @@ class Ui_Admin_corner(object):
         
 
     def retranslateUi(self, Admin_corner):
-        Admin_corner.setWindowTitle(_translate("Admin_corner", "MainWindow", None))
+    	MainWindow.setWindowTitle(_translate("MainWindow", "JuiceCentre 1.0", None))
         self.label.setText(_translate("Admin_corner", "From", None))
         self.label_2.setText(_translate("Admin_corner", "To", None))
         self.pushButton.setText(_translate("Admin_corner", " Generate Excel", None))
@@ -152,7 +152,7 @@ class Ui_Chooser_window(object):
         ui5.setupUi(MainWindow)    
         
     def retranslateUi(self, Chooser_window):
-        Chooser_window.setWindowTitle(_translate("Chooser_window", "MainWindow", None))
+    	MainWindow.setWindowTitle(_translate("MainWindow", "JuiceCentre 1.0", None))
         self.pushButton.setText(_translate("Chooser_window", "Juice Entry", None))
         self.pushButton_2.setText(_translate("Chooser_window", "Admin Corner", None))
 
@@ -207,7 +207,7 @@ class Ui_login_page(object):
             self.label_3.setText(_translate("login_page", "Wrong login credintials", None))
 
     def retranslateUi(self, login_page):
-        login_page.setWindowTitle(_translate("login_page", "MainWindow", None))
+        MainWindow.setWindowTitle(_translate("MainWindow", "JuiceCentre 1.0", None))
         self.pushButton_2.setText(_translate("login_page", "Go", None))
         self.label.setText(_translate("login_page", "Login:", None))
         self.label_2.setText(_translate("login_page", "Password:", None))
@@ -250,6 +250,7 @@ class Ui_MainWindow(object):
         font.setPointSize(16)
         self.label_2.setFont(font)
         self.label_2.setText(_fromUtf8(""))
+        self.label_2.setStyleSheet(_fromUtf8("color:red;"))
         self.label_2.setObjectName(_fromUtf8("label_2"))
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtGui.QMenuBar(MainWindow)
@@ -319,8 +320,10 @@ class Ui_StudentPage(object):
         self.label.setObjectName(_fromUtf8("label"))
         self.rollno = QtGui.QLabel(self.centralwidget)
         self.rollno.setGeometry(QtCore.QRect(171, 59, 379, 41))
-        self.rollno.setStyleSheet(_fromUtf8("font: 63 16pt \"Ubuntu\";"))
         self.rollno.setText(_fromUtf8(""))
+        font = QtGui.QFont()
+        font.setPointSize(16)
+        self.rollno.setFont(font)
         self.rollno.setObjectName(_fromUtf8("rollno"))
         self.image = QtGui.QLabel(self.centralwidget)
         self.image.setObjectName(_fromUtf8("image"))
@@ -329,8 +332,10 @@ class Ui_StudentPage(object):
         self.image.setScaledContents(True);
         self.name = QtGui.QLabel(self.centralwidget)
         self.name.setGeometry(QtCore.QRect(171, 11, 379, 42))
-        self.name.setStyleSheet(_fromUtf8("font: 63 16pt \"Ubuntu\";"))
         self.name.setText(_fromUtf8(""))
+        font = QtGui.QFont()
+        font.setPointSize(16)
+        self.name.setFont(font)
         self.name.setObjectName(_fromUtf8("name"))
         self.pushButton_2 = QtGui.QPushButton(self.centralwidget)
         self.pushButton_2.setGeometry(QtCore.QRect(558, 10, 111, 41))
@@ -347,6 +352,13 @@ class Ui_StudentPage(object):
         font.setPointSize(20)
         self.label_3.setFont(font)
         self.label_3.setObjectName(_fromUtf8("label_3"))
+        self.label_4 = QtGui.QLabel(self.centralwidget)
+        self.label_4.setGeometry(QtCore.QRect(30, 340, 700, 31))
+        font = QtGui.QFont()
+        font.setPointSize(16)
+        self.label_4.setStyleSheet(_fromUtf8("color:red;"))
+        self.label_4.setFont(font)
+        self.label_4.setObjectName(_fromUtf8("label_4"))
         self.lineEdit_2 = QtGui.QLineEdit(self.centralwidget)
         self.lineEdit_2.setGeometry(QtCore.QRect(170, 280, 316, 50))
         self.lineEdit_2.setStyleSheet(_fromUtf8("font: 26pt \"Ubuntu\";"))
@@ -394,10 +406,14 @@ class Ui_StudentPage(object):
     def store(self):
         icecream = str(self.lineEdit.text())
         juice    = str(self.lineEdit_2.text())
+        if len(juice)==0:
+        	juice = 0
+        if len(icecream)==0:
+        	icecream = 0
     	try:
     		icecream = int(icecream)
     		juice = int(juice)
-    		print "done icecream= %s juice=%s" %(icecream,juice)
+    		#print "done icecream= %s juice=%s" %(icecream,juice)
     		if(icecream>0 or juice>0):
 	    		try:
 	    			cursor.execute ("""
@@ -417,19 +433,25 @@ class Ui_StudentPage(object):
 								(item,amount) values ("%s","%s")
 								""", (item,juice+icecream))
 	    			db.commit()
-	    			ui.setupUi(MainWindow)
+	    			ui1.setupUi(MainWindow)
 	    		except MySQLdb.Error as e:
 	    			db.rollback()
+	    			self.label_4.setText("Database Error. Press cancel and try again.")
 	    			print "Database Error. Press cancel and try again. \n error: %s"%e
 	    	else:
-	    		print "Please Enter input or press cancel"
+	    		self.label_4.setText("Please Valid (greater than 0) input and hit ENTER or press CANCEL")
+	    		print "Please Valid (greater than 0) input and hit ENTER or press CANCEL"
     	except Exception, e:
+    		self.label_4.setText("Enter a vaild number")
     		print "Please enter valid number. %s"%e
 
 if __name__ == "__main__":
     import sys
     app = QtGui.QApplication(sys.argv)
     MainWindow = QtGui.QMainWindow()
+    palette = QtGui.QPalette()
+    palette.setColor(QtGui.QPalette.Background,QtCore.Qt.white)
+    MainWindow.setPalette(palette)
     ui1 = Ui_MainWindow()
     ui2 = Ui_StudentPage()
     ui3 = Ui_login_page()
