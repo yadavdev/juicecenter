@@ -324,7 +324,7 @@ class Ui_StudentPage(object):
         self.rollno.setObjectName(_fromUtf8("rollno"))
         self.image = QtGui.QLabel(self.centralwidget)
         self.image.setObjectName(_fromUtf8("image"))
-        self.image.setGeometry(QtCore.QRect(10, 10, 141, 141))
+        self.image.setGeometry(QtCore.QRect(10, 10, 141, 150))
         self.image.setPixmap(QtGui.QPixmap("../images/"+str(data[0][2])+"_0.jpg"))
         self.image.setScaledContents(True);
         self.name = QtGui.QLabel(self.centralwidget)
