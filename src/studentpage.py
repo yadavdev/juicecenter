@@ -10,8 +10,10 @@
 from PyQt4 import QtCore, QtGui
 import MySQLdb
 import datetime
+from openpyxl import Workbook
 logs = open('juicecenter.log','a')
 data = []
+wb = Workbook()
 try:
 	db = MySQLdb.connect("localhost","root","tiger","juicecenter")
 	cursor = db.cursor()
@@ -54,7 +56,7 @@ class Ui_Admin_corner(object):
         self.pushButton_2.setGeometry(QtCore.QRect(550, 20, 99, 27))
         self.pushButton_2.setObjectName(_fromUtf8("pushButton_2"))
         self.label_3 = QtGui.QLabel(self.centralwidget)
-        self.label_3.setGeometry(QtCore.QRect(210, 310, 251, 31))
+        self.label_3.setGeometry(QtCore.QRect(50, 310, 700, 31))
         self.label_3.setObjectName(_fromUtf8("label_3"))
         font = QtGui.QFont()
         font.setPointSize(16)
@@ -92,30 +94,57 @@ class Ui_Admin_corner(object):
 
     def trigger(self):
         # code to generate excel sheet
+	global wb
         start = str(self.lineEdit.text())
         end   = str(self.lineEdit_2.text())
         try:
-        	# start = start.split("/")
-        	# end = end.split("/")
-        	# start = int(start)
-        	# end = int(end)
-        	print start
-    		print end
-        	if datetime.datetime.strptime(start, '%d/%m/%Y') <= datetime.datetime.strptime(end, '%d/%m/%Y'):
-        		try:
-                    cursor.execute("SELECT * FROM students")
-                    all_list = cursor.fetchall()
-                    print len(all_list)
-                    for i in range(len(all_list)):
-                        cursor.execute("SELECT * FROM "++"")
-        		except:
-        			
+        	if datetime.datetime.strptime(start, '%d-%m-%Y') <= datetime.datetime.strptime(end, '%d-%m-%Y'):
+			try:
+				cursor.execute("SELECT * FROM students")
+				all_list = cursor.fetchall()
+				ws = wb.active
+				ws.title = "Hall2 "+start+" to "+end
+				ws['A1'] = "S_No"
+				ws['B1'] = "rollno" 
+				ws['C1'] = "Name"
+				ws['D1'] = "icecream"
+				ws['E1'] = "juice"
+				ws['F1'] = "total"
+				for i in range(len(all_list)):
+					sql = "SELECT * FROM s"+str(all_list[i][2])+" where date_on>='"+str(datetime.datetime.strptime(start, "%d-%m-%Y").strftime("%Y-%m-%d"))+"' and date_on<='"+str(datetime.datetime.strptime(end, "%d-%m-%Y").strftime("%Y-%m-%d"))+" 23:59:59';"
+					cursor.execute(sql)
+					temp = cursor.fetchall()
+					self.label_3.setText(str(((i*1.0)/len(all_list)))*100+"\% Created")
+					if(len(temp)>0):
+						total_ice = sum(zip(*temp)[2])  
+						total_juice = sum(zip(*temp)[3])  
+						total_dues = sum(zip(*temp)[4])
+						ws['A'+ str(i+2)] = all_list[i][0]
+						ws['B'+ str(i+2)] = all_list[i][1] 
+						ws['C'+ str(i+2)] = all_list[i][2]
+						ws['D'+ str(i+2)] = total_juice
+						ws['E'+ str(i+2)] = total_ice
+						ws['F'+ str(i+2)] = total_dues
+					else:
+						ws['A'+ str(i+2)] = all_list[i][0]
+						ws['B'+ str(i+2)] = all_list[i][1] 
+						ws['C'+ str(i+2)] = all_list[i][2]
+						ws['D'+ str(i+2)] = 0
+						ws['E'+ str(i+2)] = 0
+						ws['F'+ str(i+2)] = 0
+				wb.save(start+"-"+end+"_Juice_dues.xlsx")
+				self.label_3.setText("Excel successfully created.")
+
+			except MySQLdb.Error as e:
+				self.label_3.setText("Error in database. Make sure MySQL server is running")
+				print "sql error: "+str(e)
+			except Exception as e:
+				print e
         	else:
-        		print "Start Date should be less than or equal to end date"
         		self.label_3.setText("Start Date should be less than or equal to end date")
 
-        except:
-        	print "Enter in the given format only."
+        except Exception as e:
+        	print "Enter in the given format only." + str(e)
     		self.label_3.setText("Enter in the given format only.")
 
 
@@ -131,8 +160,8 @@ class Ui_Admin_corner(object):
         self.pushButton.setText(_translate("Admin_corner", " Generate Excel", None))
         self.pushButton_2.setText(_translate("Admin_corner", "Back", None))
         self.label_3.setText(_translate("Admin_corner", "", None))
-        self.label_4.setText(_translate("Admin_corner", "dd/mm/yyyy", None))
-        self.label_5.setText(_translate("Admin_corner", "dd/mm/yyyy", None))
+        self.label_4.setText(_translate("Admin_corner", "dd-mm-yyyy", None))
+        self.label_5.setText(_translate("Admin_corner", "dd-mm-yyyy", None))
         self.label_6.setText(_translate("Admin_corner", "Create Excel", None))
 
 
