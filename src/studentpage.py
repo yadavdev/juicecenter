@@ -103,7 +103,11 @@ class Ui_Admin_corner(object):
     		print end
         	if datetime.datetime.strptime(start, '%d/%m/%Y') <= datetime.datetime.strptime(end, '%d/%m/%Y'):
         		try:
-
+                    cursor.execute("SELECT * FROM students")
+                    all_list = cursor.fetchall()
+                    print len(all_list)
+                    for i in range(len(all_list)):
+                        cursor.execute("SELECT * FROM "++"")
         		except:
         			
         	else:
@@ -442,21 +446,9 @@ class Ui_StudentPage(object):
     		if(icecream>0 or juice>0):
 	    		try:
 	    			cursor.execute ("""
-	   							UPDATE students
-	   							SET icecream = icecream + %s,juice = juice + %s,total = icecream+juice
-	   							WHERE rollno=%s
-								""", (icecream,juice, data[0][2]))
-	    			if icecream>0 and juice==0:
-	    				item ="icecream"
-	    			elif juice>0 and icecream==0:
-	    				item ="juice"
-	    			elif icecream>0 and juice>0:
-	    				item = "ice+juice"
-
-	    			cursor.execute ("""
 	   							INSERT into s"""+str(data[0][2])+"""
-								(item,amount) values ("%s","%s")
-								""", (item,juice+icecream))
+								(icecream,juice,amount) values ("%s","%s","%s")
+								""", (icecream,juice,juice+icecream))
 	    			db.commit()
 	    			ui1.setupUi(MainWindow)
 	    		except MySQLdb.Error as e:
